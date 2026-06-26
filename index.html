@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>smuxo</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+body {
+    font-family: 'Orbitron', sans-serif;
+    background: #0a0612;
+    color: #ffffff;
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+#vanta-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -5;
+    pointer-events: none;
+}
+.glow-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -4;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 40%, rgba(157,78,221,0.2), transparent 60%),
+                radial-gradient(circle at 50% 90%, rgba(199,125,255,0.2), transparent 65%);
+    mix-blend-mode: screen;
+    animation: glowPulse 8s ease-in-out infinite;
+}
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #9d4edd, #c77dff, #9d4edd);
+    box-shadow: 0 0 20px #9d4edd;
+    z-index: 9999;
+    width: 0%;
+    transition: width 0.1s;
+}
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+}
+section {
+    width: 100%;
+    padding: 100px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.container {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+.hero {
+    height: 100vh;
+    justify-content: center;
+}
+.hero-title {
+    font-size: clamp(48px, 12vw, 140px);
+    font-weight: 800;
+    letter-spacing: 8px;
+    text-shadow: 0 0 30px #9d4edd, 0 0 60px #c77dff;
+    transform-style: preserve-3d;
+    color: #ffffff;
+    animation: glitch 4s infinite;
+    line-height: 1.1;
+}
+@keyframes glitch {
+    0%, 100% { transform: skew(0deg, 0deg); text-shadow: 0 0 30px #9d4edd, 0 0 60px #c77dff; }
+    95% { transform: skew(2deg, 1deg); text-shadow: -2px 0 #9d4edd, 2px 0 #c77dff; }
+    96% { transform: skew(-2deg, -1deg); text-shadow: 2px 0 #9d4edd, -2px 0 #c77dff; }
+    97% { transform: skew(0deg, 0deg); text-shadow: 0 0 30px #9d4edd, 0 0 60px #c77dff; }
+}
+.hero-subtitle {
+    margin-top: 20px;
+    font-size: clamp(18px, 4vw, 32px);
+    color: #e0aaff;
+    text-shadow: 0 0 20px #c77dff;
+    transition: transform 0.1s;
+    min-height: 60px;
+}
+.cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1em;
+    background: #c77dff;
+    margin-left: 5px;
+    animation: blink 1s infinite;
+    vertical-align: middle;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.info-card {
+    width: 100%;
+    max-width: 800px;
+    background: rgba(16,16,17, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(157,78,221, 0.3);
+    border-radius: 30px;
+    padding: 50px 40px;
+    box-shadow: 0 0 30px rgba(157,78,221, 0.3);
+    margin-bottom: 30px;
+    transform-style: preserve-3d;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.8s, transform 0.8s, border-color 0.3s, box-shadow 0.3s;
+}
+.info-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.info-card:hover {
+    border-color: #c77dff;
+    box-shadow: 0 0 50px #9d4edd, 0 0 100px #c77dff;
+}
+.about-me-title {
+    font-size: clamp(32px, 6vw, 54px);
+    margin-bottom: 25px;
+    text-shadow: 0 0 15px #9d4edd;
+}
+.about-me-text {
+    font-size: clamp(16px, 3.5vw, 22px);
+    line-height: 1.8;
+    color: #e0aaff;
+}
+.skills-section {
+    margin-top: 80px;
+    width: 100%;
+    max-width: 800px;
+}
+.skills-title {
+    font-size: clamp(32px, 6vw, 54px);
+    margin-bottom: 50px;
+    text-shadow: 0 0 15px #c77dff;
+}
+.skill-item {
+    width: 100%;
+    margin-bottom: 30px;
+}
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #e0aaff;
+    align-items: center;
+}
+.skill-name {
+    display: flex;
+    align-items: center;
+}
+.skill-bar {
+    width: 100%;
+    height: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(157,78,221,0.3);
+}
+.skill-progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #9d4edd, #c77dff);
+    box-shadow: 0 0 20px #9d4edd;
+    transition: width 1.5s;
+}
+.review-card {
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 0 30px rgba(255,215,0,0.3);
+    padding: 40px 30px;
+}
+.review-card:hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 50px #ffd700, 0 0 100px #ffaa00;
+}
+.review-count {
+    font-size: clamp(28px, 5vw, 40px);
+    color: #ffd700;
+    text-shadow: 0 0 20px #ffd700;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+.review-stars {
+    display: flex;
+    gap: 10px;
+    font-size: clamp(28px, 5vw, 40px);
+    color: #ffd700;
+    text-shadow: 0 0 20px #ffd700;
+    justify-content: center;
+}
+.guarantee-card {
+    margin-top: 60px;
+    padding: 50px 40px;
+    border-radius: 30px;
+    background: rgba(16,16,17, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(157,78,221, 0.3);
+    box-shadow: 0 0 30px rgba(157,78,221, 0.3);
+    width: 100%;
+    max-width: 800px;
+    transform-style: preserve-3d;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.8s, transform 0.8s, border-color 0.3s, box-shadow 0.3s;
+}
+.guarantee-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.guarantee-card:hover {
+    border-color: #c77dff;
+    box-shadow: 0 0 50px #9d4edd, 0 0 100px #c77dff;
+}
+.guarantee-title {
+    font-size: clamp(32px, 6vw, 50px);
+    margin-bottom: 25px;
+    color: #e0aaff;
+    text-shadow: 0 0 15px #9d4edd;
+}
+.guarantee-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: clamp(16px, 3.5vw, 22px);
+    color: #e0aaff;
+}
+.projects-title {
+    font-size: clamp(32px, 6.5vw, 58px);
+    margin-bottom: 60px;
+    text-shadow: 0 0 15px #c77dff;
+}
+.projects-grid {
+    width: 100%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    padding: 0 10px;
+}
+.project-card {
+    padding: 40px 20px;
+    border-radius: 28px;
+    background: rgba(16,16,17, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(157,78,221, 0.3);
+    box-shadow: 0 0 30px rgba(157,78,221, 0.3);
+    font-size: 20px;
+    cursor: pointer;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transform-style: preserve-3d;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s, transform 0.8s, border-color 0.3s, box-shadow 0.3s;
+}
+.project-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.project-card:hover {
+    border-color: #c77dff;
+    box-shadow: 0 0 50px #9d4edd, 0 0 100px #c77dff;
+    transform: scale(1.03);
+}
+.final {
+    padding: 150px 20px;
+    font-size: clamp(22px, 5vw, 42px);
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 0 0 30px #9d4edd, 0 0 60px #c77dff;
+    background: transparent;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s, transform 1s;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0;
+}
+.final.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.to-top {
+    width: 100%;
+    padding: 20px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: transparent;
+}
+.to-top-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background: rgba(16,16,17, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid #9d4edd;
+    border-radius: 50px;
+    color: #9d4edd;
+    font-size: 18px;
+    text-decoration: none;
+    letter-spacing: 2px;
+    box-shadow: 0 0 20px #9d4edd;
+    transition: all 0.3s;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+.to-top-button:hover {
+    border-color: #c77dff;
+    color: #c77dff;
+    box-shadow: 0 0 30px #c77dff;
+    transform: translateY(-5px);
+}
+.bottom-signature {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(200,170,255,0.5);
+    text-shadow: 0 0 10px #9d4edd;
+    padding: 20px 0;
+    text-align: center;
+}
+@media (max-width: 540px) {
+    section { padding: 70px 15px; }
+    .info-card, .guarantee-card { padding: 35px 25px; border-radius: 25px; }
+    .about-me-text { font-size: 16px; line-height: 1.8; }
+    .skill-header { font-size: 14px; }
+    .project-card { font-size: 16px; padding: 30px 15px; min-height: 100px; }
+    .review-stars { gap: 6px; }
+    .hero-title { letter-spacing: 4px; }
+    .hero-subtitle { margin-top: 15px; }
+    .skills-section { margin-top: 50px; }
+    .projects-grid { gap: 20px; }
+    .final { padding: 100px 15px; }
+    .to-top { padding: 10px 15px 30px; }
+    .to-top-button { padding: 12px 25px; font-size: 16px; }
+}
+@media (max-width: 380px) {
+    .project-card { font-size: 15px; padding: 25px 12px; min-height: 90px; }
+    .info-card, .guarantee-card { padding: 25px 20px; }
+    .guarantee-list { gap: 12px; }
+    .review-stars { gap: 4px; }
+    .final { padding: 80px 15px; }
+    .to-top-button { padding: 10px 20px; font-size: 14px; }
+}
+.letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(120%) scale(0.92);
+    filter: blur(5px);
+    transition: transform 0.6s, opacity 0.6s, filter 0.6s;
+}
+.revealed .letter {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    filter: blur(0) !important;
+}
+.skill-html::before {
+    content: "🌐";
+    margin-right: 8px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+.skill-js::before {
+    content: "⚡";
+    margin-right: 8px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+    animation-delay: 0.2s;
+}
+.skill-tg::before {
+    content: "📱";
+    margin-right: 8px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+    animation-delay: 0.4s;
+}
+.skill-termux::before {
+    content: "📟";
+    margin-right: 8px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+    animation-delay: 0.6s;
+}
+.skill-python::before {
+    content: "🐍";
+    margin-right: 8px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+    animation-delay: 0.8s;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+</style>
+</head>
+<body>
+
+<div id="vanta-bg"></div>
+<div class="glow-layer"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<main>
+<section class="hero">
+    <div class="container">
+        <div class="hero-title animated-text" id="heroTitle">smuxo</div>
+        <div class="hero-subtitle" id="heroSubtitle"></div>
+    </div>
+</section>
+
+<section>
+    <div class="info-card reveal" id="aboutCard">
+        <div class="about-me-title animated-text">Обо мне</div>
+        <div class="about-me-text">
+            Я занимаюсь программированием уже много лет. Создаю сайты, телеграм-ботов, софты для termux и много чего ещё. Ниже представлены мои навыки в разных задачах.
+        </div>
+    </div>
+
+    <div class="skills-section">
+        <div class="skills-title animated-text">Мои навыки</div>
+        <div class="skill-item">
+            <div class="skill-header">
+                <span class="skill-name"><span class="skill-html"></span>HTML / CSS</span>
+                <span>70%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-progress" data-progress="70"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-header">
+                <span class="skill-name"><span class="skill-js"></span>JavaScript</span>
+                <span>75%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-progress" data-progress="75"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-header">
+                <span class="skill-name"><span class="skill-tg"></span>Telegram API</span>
+                <span>80%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-progress" data-progress="80"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-header">
+                <span class="skill-name"><span class="skill-termux"></span>Termux</span>
+                <span>90%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-progress" data-progress="90"></div></div>
+        </div>
+        <div class="skill-item">
+            <div class="skill-header">
+                <span class="skill-name"><span class="skill-python"></span>Python</span>
+                <span>85%</span>
+            </div>
+            <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
+        </div>
+    </div>
+
+    <div class="info-card review-card reveal">
+        <div class="review-count">75+ отзывов</div>
+        <div class="review-stars">★★★★★</div>
+    </div>
+
+    <div class="guarantee-card reveal" id="guaranteeCard">
+        <div class="guarantee-title animated-text">Гарантии</div>
+        <div class="guarantee-list">
+            <div>✓ Работа до результата</div>
+            <div>✓ Исправление ошибок бесплатно</div>
+            <div>✓ Поддержка после завершения проекта</div>
+            <div>✓ Быстрые сроки выполнения</div>
+            <div>✓ Оплата при получении</div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="projects-title animated-text">Что надо посетить</div>
+    <div class="projects-grid">
+        <div class="project-card" data-url="https://t.me/repa_smuxo">Отзывы</div>
+        <div class="project-card" data-url="https://t.me/perehodnik_smuxo">Переходник</div>
+        <div class="project-card" data-url="https://t.me/smuxo">Связь со мной</div>
+        <div class="project-card" data-url="https://t.me/prais_smuxo">Прайс</div>
+    </div>
+</section>
+
+<section class="final reveal">
+    Эволюция продолжается. А smuxo её обгоняет.
+</section>
+
+<div class="to-top">
+    <a href="#" class="to-top-button">↑ НАВЕРХ</a>
+    <div class="bottom-signature">by @smuxo</div>
+</div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta/dist/vanta.globe.min.js"></script>
+<script>
+    VANTA.GLOBE({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x9d4edd,
+        backgroundColor: 0x1a0630,
+        size: 1.2
+    });
+
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+        let scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+        progressBar.style.width = scrollPercent + '%';
+    });
+
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    const aboutCard = document.getElementById('aboutCard');
+    const guaranteeCard = document.getElementById('guaranteeCard');
+
+    document.addEventListener('mousemove', (e) => {
+        let x = (e.clientX / window.innerWidth - 0.5) * 15;
+        let y = (e.clientY / window.innerHeight - 0.5) * 15;
+        heroTitle.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+        heroSubtitle.style.transform = `translateX(${x}px) translateY(${y}px)`;
+        aboutCard.style.transform = `rotateY(${x * 0.2}deg) rotateX(${-y * 0.2}deg)`;
+        guaranteeCard.style.transform = `rotateY(${x * 0.2}deg) rotateX(${-y * 0.2}deg)`;
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.style.transform = `rotateY(${x * 0.15}deg) rotateX(${-y * 0.15}deg)`;
+        });
+    });
+
+    document.querySelectorAll('.animated-text').forEach(el => {
+        if (el.id === 'heroSubtitle') return;
+        let text = el.textContent;
+        el.textContent = '';
+        for (let i = 0; i < text.length; i++) {
+            let span = document.createElement('span');
+            span.className = 'letter';
+            span.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+            span.style.transitionDelay = i * 0.02 + 's';
+            el.appendChild(span);
+        }
+    });
+
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.querySelector('.hero .hero-title').classList.add('revealed');
+        }, 100);
+        const text = "мастер в своём деле";
+        let i = 0;
+        subtitle.innerHTML = '';
+        function typeWriter() {
+            if (i < text.length) {
+                subtitle.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            } else {
+                let cursor = document.createElement('span');
+                cursor.className = 'cursor';
+                subtitle.appendChild(cursor);
+            }
+        }
+        typeWriter();
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                entry.target.classList.add('revealed');
+                if (entry.target.classList.contains('skills-section')) {
+                    entry.target.querySelectorAll('.skill-progress').forEach(bar => {
+                        bar.style.width = bar.dataset.progress + '%';
+                    });
+                }
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.reveal, .skills-section, .final, .info-card, .guarantee-card, .project-card').forEach(el => observer.observe(el));
+
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', function() {
+            let url = this.dataset.url;
+            if (url) {
+                window.open(url, '_blank');
+            }
+        });
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+    });
+</script>
+</body>
+</html>
