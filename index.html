@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-<title>smuxo</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;600;800&display=swap" rel="stylesheet">
+<title>smuxo · ЛАЙТ</title>
+<meta name="description" content="smuxo — сайты, телеграм-боты и софт. Быстро, чисто, надёжно.">
+<meta property="og:title" content="smuxo · ЛАЙТ">
+<meta property="og:description" content="smuxo — сайты, телеграм-боты и софт. Быстро, чисто, надёжно.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230b0705'/%3E%3Ctext x='32' y='44' font-family='monospace' font-size='36' font-weight='bold' fill='%23ff5a1f' text-anchor='middle'%3Es%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 * {
     margin: 0;
@@ -438,6 +443,17 @@ section {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-3px); }
 }
+
+body{font-family:'Inter',system-ui,sans-serif}
+[class*="title"],.hero-subtitle,.to-top-button,.bottom-signature,.ldm-button{font-family:'Orbitron',sans-serif}
+p,.about-me-text{line-height:1.7}
+.tier-plaque{margin:30px auto 0;max-width:480px;padding:16px 20px;border:1px dashed rgba(255,90,31,0.4);border-radius:12px;font-size:13px;color:#9a8c82;text-align:center;line-height:1.6}
+.tier-plaque b{color:#ffb36b}
+.tier-plaque a{color:#ff5a1f;text-decoration:none;font-weight:600}
+
+.project-card{transition:transform 0.25s ease,border-color 0.25s ease}
+.project-card:hover{transform:translateY(-3px)}
+a{transition:color 0.2s ease}
 </style>
 </head>
 <body>
@@ -534,6 +550,7 @@ section {
 
 <div class="to-top">
     <a href="#" class="to-top-button">↑ НАВЕРХ</a>
+    <div class="tier-plaque">Этот сайт — живой пример тарифа <b>ЛАЙТ</b>: мгновенная загрузка, чистая типографика, ничего лишнего. Заказать такой → <a href="https://t.me/smuxo" target="_blank">t.me/smuxo</a></div>
     <div class="bottom-signature">by @smuxo</div>
 </div>
 </main>
